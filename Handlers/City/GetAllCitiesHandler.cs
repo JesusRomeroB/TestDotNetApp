@@ -6,7 +6,7 @@ using TestDotNetApp.Queries;
 
 namespace TestDotNetApp.Handlers
 {
-    public class GetAllCitiesHandler : IRequestHandler<GetAllCities, IEnumerable<City>>
+    public class GetAllCitiesHandler : IRequestHandler<GetAllCitiesQuery, IEnumerable<City>>
     {
         private readonly DBContext _dbContext;
 
@@ -15,9 +15,16 @@ namespace TestDotNetApp.Handlers
             _dbContext = dbcontext;
         }
 
-        public async Task<IEnumerable<City>> Handle(GetAllCities request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<City>> Handle(GetAllCitiesQuery request, CancellationToken cancellationToken)
         {
-            return await _dbContext.city.ToListAsync();
+            try
+            {
+                return await _dbContext.city.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
         }
     }
 }

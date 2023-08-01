@@ -15,13 +15,13 @@ namespace TestDotNetApp.Controllers
 
         public CityController(IMediator mediator) => _mediator = mediator;
 
-        // GET: api/<CityController>
+        // GET: api/city
         [HttpGet]
         public async Task<ActionResult> Get()
         {
             try
             {
-                var cities = await _mediator.Send(new GetAllCities());
+                var cities = await _mediator.Send(new GetAllCitiesQuery());
                 return cities is not null ? Ok(cities) : NotFound();
             }
             catch (Exception ex)
@@ -30,13 +30,13 @@ namespace TestDotNetApp.Controllers
             }
         }
 
-        // GET api/<CityController>/5
+        // GET api/city/5
         [HttpGet("{id}")]
         public async Task <ActionResult> GetCityById(int id)
         {
             try
             {
-                City city = await _mediator.Send(new GetCityById() { Id = id});
+                City city = await _mediator.Send(new GetCityByIdQuery() { Id = id});
                 return city is not null ? Ok(city) : NotFound();
             }
             catch (Exception ex)
@@ -45,7 +45,7 @@ namespace TestDotNetApp.Controllers
             }
         }
 
-        // POST api/<CityController>
+        // POST api/city
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] City request)
         {
@@ -66,7 +66,7 @@ namespace TestDotNetApp.Controllers
             }
         }
 
-        // PUT api/<CityController>/5
+        // PUT api/city/5
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, [FromBody] City request)
         {
@@ -88,7 +88,7 @@ namespace TestDotNetApp.Controllers
             }
         }
 
-        // DELETE api/<CityController>/5
+        // DELETE api/city/5
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {

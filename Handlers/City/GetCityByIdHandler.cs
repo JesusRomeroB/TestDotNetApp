@@ -6,7 +6,7 @@ using TestDotNetApp.Queries;
 
 namespace TestDotNetApp.Handlers
 {
-    public class GetCityByIdHandler : IRequestHandler<GetCityById, City>
+    public class GetCityByIdHandler : IRequestHandler<GetCityByIdQuery, City>
     {
         private readonly DBContext _dbContext;
 
@@ -15,7 +15,7 @@ namespace TestDotNetApp.Handlers
             _dbContext = dbContext;
         }
 
-        public async Task<City> Handle(GetCityById request, CancellationToken cancellationToken) { 
+        public async Task<City> Handle(GetCityByIdQuery request, CancellationToken cancellationToken) { 
             return await _dbContext.city.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
         }
     }

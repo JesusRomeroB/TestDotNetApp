@@ -10,7 +10,7 @@ using TestDotNetApp.Data;
 namespace TestDotNetApp.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20230731220007_InitialModel")]
+    [Migration("20230801025115_InitialModel")]
     partial class InitialModel
     {
         /// <inheritdoc />
@@ -21,7 +21,7 @@ namespace TestDotNetApp.Migrations
                 .HasAnnotation("ProductVersion", "7.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("TestDotNetApp.Models.City", b =>
+            modelBuilder.Entity("TestDotNetApp.Domain.Models.City", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -39,7 +39,7 @@ namespace TestDotNetApp.Migrations
                     b.ToTable("city");
                 });
 
-            modelBuilder.Entity("TestDotNetApp.Models.Client", b =>
+            modelBuilder.Entity("TestDotNetApp.Domain.Models.Client", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -62,7 +62,7 @@ namespace TestDotNetApp.Migrations
                     b.ToTable("client");
                 });
 
-            modelBuilder.Entity("TestDotNetApp.Models.User", b =>
+            modelBuilder.Entity("TestDotNetApp.Domain.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -89,9 +89,9 @@ namespace TestDotNetApp.Migrations
                     b.ToTable("user");
                 });
 
-            modelBuilder.Entity("TestDotNetApp.Models.Client", b =>
+            modelBuilder.Entity("TestDotNetApp.Domain.Models.Client", b =>
                 {
-                    b.HasOne("TestDotNetApp.Models.City", "City")
+                    b.HasOne("TestDotNetApp.Domain.Models.City", "City")
                         .WithMany()
                         .HasForeignKey("IdCity")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -1,43 +1,115 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using TestDotNetApp.Commands;
+using TestDotNetApp.Domain.DTO;
+using TestDotNetApp.Domain.Models;
+using TestDotNetApp.Queries;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace TestDotNetApp.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/client")]
     [ApiController]
     public class ClientController : ControllerBase
     {
-        // GET: api/<ClientController>
+        private readonly IMediator _mediator;
+
+        public ClientController(IMediator mediator) => _mediator = mediator;
+
+        // GET: api/client
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult> Get()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                var cities = await _mediator.Send(new GetAllClientsQuery());
+                return cities is not null ? Ok(cities) : NotFound();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
 
-        // GET api/<ClientController>/5
+        // GET api/client/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult> GetCityById(int id)
         {
-            return "value";
+            try
+            {
+                Client response = await _mediator.Send(new GetClientByIdQuery() { Id = id });
+                return response is not null ? Ok(response) : NotFound();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
 
-        // POST api/<ClientController>
+        // POST api/client
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult> Post([FromBody] Client request)
         {
+            try
+            {
+                var command = new CreateClientCommand()
+                {
+                    Cod = request.Cod,
+                    Name = request.Name,
+                    IdCity = request.IdCity,
+                };
+
+                var response = await _mediator.Send(command);
+                return response is not null ? Ok("Client created sucessfully") : NotFound();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
 
-        // PUT api/<ClientController>/5
+        // PUT api/client/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult> Put(int id, [FromBody] Client request)
         {
+            try
+            {
+                var command = new UpdateClientCommand()
+                {
+                    Id = id,
+                    Cod = request.Cod,
+                    Name = request.Name,
+                    IdCity = request.IdCity,
+                };
+
+                var response = await _mediator.Send(command);
+                return response is not null ? Ok(response) : NotFound();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
 
-        // DELETE api/<ClientController>/5
+        // DELETE api/client/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
+            try
+            {
+                var command = new DeleteClientCommand()
+                {
+                    Id = id
+                };
+
+                var response = await _mediator.Send(command);
+                return response is not null ? Ok() : NotFound();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
     }
 }

@@ -12,14 +12,21 @@ namespace TestDotNetApp.Handlers
         public DeleteCityCommandHandler(DBContext dbContext) { _dbContext = dbContext; }
         public async Task<City> Handle(DeleteCityCommand request, CancellationToken cancellationToken)
         {
-            var city = _dbContext.city.FirstOrDefault(p => p.Id == request.Id);
+            try
+            {
+                var city = _dbContext.city.FirstOrDefault(p => p.Id == request.Id);
 
-            if (city is null)
-                return default;
+                if (city is null)
+                    return default;
 
-            _dbContext.Remove(city);
-            await _dbContext.SaveChangesAsync();
-            return city;
+                _dbContext.Remove(city);
+                await _dbContext.SaveChangesAsync();
+                return city;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
         }
     }
 }

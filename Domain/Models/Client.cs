@@ -12,9 +12,7 @@ namespace TestDotNetApp.Domain.Models
         public int Cod { get; set; }
         [Required]
         public string Name { get; set; }
+        [ForeignKey("City")]
         public int IdCity { get; set; }
-
-        [ForeignKey("IdCity")]
-        public City City { get; set; }
     }
 }

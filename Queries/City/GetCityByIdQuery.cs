@@ -3,7 +3,8 @@ using TestDotNetApp.Domain.Models;
 
 namespace TestDotNetApp.Queries
 {
-    public class GetAllCities : IRequest<IEnumerable<City>>
+    public class GetCityByIdQuery : IRequest<City>
     {
+        public int Id { get; set; }
     }
 }

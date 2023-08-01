@@ -11,15 +11,22 @@ namespace TestDotNetApp.Handlers
         public CreateCityCommandHandler(DBContext dbContext) {  _dbContext = dbContext; }
         public async Task<City> Handle(CreateCityCommand request, CancellationToken cancellationToken)
         {
-            var city = new City
+            try
             {
-                Cod = request.Cod,
-                Name= request.Name,
-            };
+                var city = new City
+                {
+                    Cod = request.Cod,
+                    Name = request.Name,
+                };
 
-            _dbContext.city.Add(city);
-            await _dbContext.SaveChangesAsync();
-            return city;
+                _dbContext.city.Add(city);
+                await _dbContext.SaveChangesAsync();
+                return city;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
         }
     }
 }
