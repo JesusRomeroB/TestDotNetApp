@@ -1,7 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TestDotNetApp.Queries;
-using TestDotNetApp.Models;
+using TestDotNetApp.Commands;
+using System.Text.Json;
+using TestDotNetApp.Domain.Models;
 
 namespace TestDotNetApp.Controllers
 {
@@ -45,20 +47,65 @@ namespace TestDotNetApp.Controllers
 
         // POST api/<CityController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult> Post([FromBody] City request)
         {
+            try
+            {
+                var command = new CreateCityCommand()
+                {
+                    Cod = request.Cod,
+                    Name = request.Name
+                };
+
+                var response = await _mediator.Send(command);
+                return response is not null ? Ok("City created sucessfully") : NotFound();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
 
         // PUT api/<CityController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult> Put(int id, [FromBody] City request)
         {
+            try
+            {
+                var command = new UpdateCityCommand()
+                {
+                    Id = id,
+                    Cod = request.Cod,
+                    Name = request.Name
+                };
+
+                var response = await _mediator.Send(command);
+                return response is not null ? Ok(response) : NotFound();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
 
         // DELETE api/<CityController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
+            try
+            {
+                var command = new DeleteCityCommand()
+                {
+                    Id = id
+                };
+
+                var response = await _mediator.Send(command);
+                return response is not null ? Ok() : NotFound();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TestDotNetApp.Models;
+using TestDotNetApp.Domain.Models;
 
 namespace TestDotNetApp.Data
 {

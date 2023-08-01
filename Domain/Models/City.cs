@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TestDotNetApp.Models
+namespace TestDotNetApp.Domain.Models
 {
     public class City
     {

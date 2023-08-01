@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using TestDotNetApp.Models;
+using TestDotNetApp.Domain.Models;
 
 namespace TestDotNetApp.Queries
 {

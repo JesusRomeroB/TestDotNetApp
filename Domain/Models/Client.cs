@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TestDotNetApp.Models
+namespace TestDotNetApp.Domain.Models
 {
     public class Client
     {

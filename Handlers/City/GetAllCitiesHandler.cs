@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TestDotNetApp.Data;
-using TestDotNetApp.Models;
+using TestDotNetApp.Domain.Models;
 using TestDotNetApp.Queries;
 
 namespace TestDotNetApp.Handlers
