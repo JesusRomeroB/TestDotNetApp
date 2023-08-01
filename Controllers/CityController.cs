@@ -5,9 +5,11 @@ using TestDotNetApp.Commands;
 using System.Text.Json;
 using TestDotNetApp.Domain.Models;
 using TestDotNetApp.Domain.DTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TestDotNetApp.Controllers
 {
+    [Authorize]
     [Route("api/city")]
     [ApiController]
     public class CityController : ControllerBase
