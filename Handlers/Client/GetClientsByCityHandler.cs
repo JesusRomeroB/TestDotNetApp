@@ -1,27 +1,26 @@
 ﻿using MediatR;
-using TestDotNetApp.Data;
-using TestDotNetApp.Queries;
 using Microsoft.EntityFrameworkCore;
+using TestDotNetApp.Data;
 using TestDotNetApp.Domain.Models;
+using TestDotNetApp.Queries;
 
 namespace TestDotNetApp.Handlers
 {
-    public class GetAllClientsHandler : IRequestHandler<GetAllClientsQuery, IEnumerable<Client>>
+    public class GetClientsByCityHandler : IRequestHandler<GetClientsByCityQuery, IEnumerable<Client>>
     {
         private readonly DBContext _dbContext;
-
-        public GetAllClientsHandler(DBContext dbcontext)
+        public GetClientsByCityHandler(DBContext dbcontext)
         {
             _dbContext = dbcontext;
         }
-
-        public async Task<IEnumerable<Client>> Handle(GetAllClientsQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Client>> Handle(GetClientsByCityQuery request, CancellationToken cancellationToken)
         {
             try
             {
                 int recordsToSkip = (request.PageIndex - 1) * request.PageSize;
 
-                return await _dbContext.client.OrderBy(c => c.Id)
+                return await _dbContext.client.Where(c => c.IdCity == request.IdCity)
+                                            .OrderBy(c => c.Id)
                                             .Skip(recordsToSkip)
                                             .Take(request.PageSize)
                                             .ToListAsync();

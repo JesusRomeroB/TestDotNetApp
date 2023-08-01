@@ -115,5 +115,24 @@ namespace TestDotNetApp.Controllers
                 return BadRequest();
             }
         }
+        // GET: api/client/city/1
+        [HttpGet("city/{id}")]
+        public async Task<ActionResult> GetClientsByCity(int id, [FromBody] Pagination pagination)
+        {
+            try
+            {
+                var cities = await _mediator.Send(new GetClientsByCityQuery()
+                {
+                    IdCity = id,
+                    PageIndex = pagination.PageIndex,
+                    PageSize = pagination.PageSize
+                });
+                return cities is not null ? Ok(cities) : NotFound();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
     }
 }

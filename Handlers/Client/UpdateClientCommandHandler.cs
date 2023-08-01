@@ -11,7 +11,8 @@ namespace TestDotNetApp.Handlers
         public UpdateClientCommandHandler(DBContext dbContext) { _dbContext = dbContext; }
         public async Task<Client> Handle(UpdateClientCommand request, CancellationToken cancellationToken)
         {
-            try { 
+            try
+            {
                 var client = _dbContext.client.FirstOrDefault(p => p.Id == request.Id);
 
                 if (client is null)

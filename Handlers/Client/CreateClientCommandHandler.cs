@@ -12,7 +12,7 @@ namespace TestDotNetApp.Handlers
         public async Task<Client> Handle(CreateClientCommand request, CancellationToken cancellationToken)
         {
             try
-            { 
+            {
                 var client = new Client
                 {
                     Cod = request.Cod,
@@ -26,7 +26,7 @@ namespace TestDotNetApp.Handlers
             }
             catch (Exception ex)
             {
-               throw new Exception();
+                throw new Exception();
             }
         }
     }
