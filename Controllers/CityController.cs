@@ -4,6 +4,7 @@ using TestDotNetApp.Queries;
 using TestDotNetApp.Commands;
 using System.Text.Json;
 using TestDotNetApp.Domain.Models;
+using TestDotNetApp.Domain.DTO;
 
 namespace TestDotNetApp.Controllers
 {
@@ -17,11 +18,15 @@ namespace TestDotNetApp.Controllers
 
         // GET: api/city
         [HttpGet]
-        public async Task<ActionResult> Get()
+        public async Task<ActionResult> Get([FromBody] Pagination pagination)
         {
             try
             {
-                var cities = await _mediator.Send(new GetAllCitiesQuery());
+                var cities = await _mediator.Send(new GetAllCitiesQuery() 
+                { 
+                    PageIndex = pagination.PageIndex,
+                    PageSize = pagination.PageSize,
+                });
                 return cities is not null ? Ok(cities) : NotFound();
             }
             catch (Exception ex)

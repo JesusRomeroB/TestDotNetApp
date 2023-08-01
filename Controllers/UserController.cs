@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TestDotNetApp.Commands;
+using TestDotNetApp.Domain.DTO;
 using TestDotNetApp.Domain.Models;
 using TestDotNetApp.Queries;
 
@@ -18,11 +19,15 @@ namespace TestDotNetApp.Controllers
 
         // GET: api/user
         [HttpGet]
-        public async Task<ActionResult> Get()
+        public async Task<ActionResult> Get([FromBody] Pagination pagination)
         {
             try
             {
-                var cities = await _mediator.Send(new GetAllUsersQuery());
+                var cities = await _mediator.Send(new GetAllUsersQuery()
+                {
+                    PageIndex = pagination.PageIndex,
+                    PageSize = pagination.PageSize,
+                });
                 return cities is not null ? Ok(cities) : NotFound();
             }
             catch (Exception ex)

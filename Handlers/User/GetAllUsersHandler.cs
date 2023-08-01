@@ -17,7 +17,19 @@ namespace TestDotNetApp.Handlers
 
         public async Task<IEnumerable<User>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
         {
-            return await _dbContext.user.ToListAsync();
+            try
+            {
+                int recordsToSkip = (request.PageIndex - 1) * request.PageSize;
+
+                return await _dbContext.user.OrderBy(c => c.Id)
+                                            .Skip(recordsToSkip)
+                                            .Take(request.PageSize)
+                                            .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
         }
     }
 }

@@ -19,7 +19,12 @@ namespace TestDotNetApp.Handlers
         {
             try
             {
-                return await _dbContext.city.ToListAsync();
+                int recordsToSkip = (request.PageIndex - 1) * request.PageSize;
+
+                return await _dbContext.city.OrderBy(c => c.Id) 
+                                            .Skip(recordsToSkip)
+                                            .Take(request.PageSize)
+                                            .ToListAsync();
             }
             catch (Exception ex)
             {

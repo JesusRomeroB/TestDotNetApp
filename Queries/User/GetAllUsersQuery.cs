@@ -5,5 +5,7 @@ namespace TestDotNetApp.Queries
 {
     public class GetAllUsersQuery : IRequest<IEnumerable<User>>
     {
+        public int PageIndex { get; set; }
+        public int PageSize { get; set; }
     }
 }

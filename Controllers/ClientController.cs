@@ -19,11 +19,15 @@ namespace TestDotNetApp.Controllers
 
         // GET: api/client
         [HttpGet]
-        public async Task<ActionResult> Get()
+        public async Task<ActionResult> Get([FromBody] Pagination pagination)
         {
             try
             {
-                var cities = await _mediator.Send(new GetAllClientsQuery());
+                var cities = await _mediator.Send(new GetAllClientsQuery()
+                {
+                    PageIndex = pagination.PageIndex,
+                    PageSize = pagination.PageSize,
+                });
                 return cities is not null ? Ok(cities) : NotFound();
             }
             catch (Exception ex)

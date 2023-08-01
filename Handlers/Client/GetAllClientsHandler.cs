@@ -17,7 +17,19 @@ namespace TestDotNetApp.Handlers
 
         public async Task<IEnumerable<Client>> Handle(GetAllClientsQuery request, CancellationToken cancellationToken)
         {
-            return await _dbContext.client.ToListAsync();
+            try
+            {
+                int recordsToSkip = (request.PageIndex - 1) * request.PageSize;
+
+                return await _dbContext.client.OrderBy(c => c.Id) 
+                                            .Skip(recordsToSkip)
+                                            .Take(request.PageSize)
+                                            .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
         }
     }
 }
