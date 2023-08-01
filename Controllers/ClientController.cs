@@ -34,7 +34,7 @@ namespace TestDotNetApp.Controllers
 
         // GET api/client/5
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetCityById(int id)
+        public async Task<ActionResult> GetClientById(int id)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace TestDotNetApp.Controllers
                 };
 
                 var response = await _mediator.Send(command);
-                return response is not null ? Ok("Client created sucessfully") : NotFound();
+                return response is not null ? Ok(response) : NotFound();
             }
             catch (Exception ex)
             {

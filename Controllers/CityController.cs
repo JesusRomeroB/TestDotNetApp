@@ -58,7 +58,7 @@ namespace TestDotNetApp.Controllers
                 };
 
                 var response = await _mediator.Send(command);
-                return response is not null ? Ok("City created sucessfully") : NotFound();
+                return response is not null ? Ok(response) : NotFound();
             }
             catch (Exception ex)
             {

@@ -11,17 +11,23 @@ namespace TestDotNetApp.Handlers
         public UpdateClientCommandHandler(DBContext dbContext) { _dbContext = dbContext; }
         public async Task<Client> Handle(UpdateClientCommand request, CancellationToken cancellationToken)
         {
-            var client = _dbContext.client.FirstOrDefault(p => p.Id == request.Id);
+            try { 
+                var client = _dbContext.client.FirstOrDefault(p => p.Id == request.Id);
 
-            if (client is null)
-                return default;
+                if (client is null)
+                    return default;
 
-            client.Cod = request.Cod;
-            client.Name = request.Name;
-            client.IdCity = request.IdCity;
+                client.Cod = request.Cod;
+                client.Name = request.Name;
+                client.IdCity = request.IdCity;
 
-            await _dbContext.SaveChangesAsync();
-            return client;
+                await _dbContext.SaveChangesAsync();
+                return client;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
         }
     }
 }
