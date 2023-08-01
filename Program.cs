@@ -1,3 +1,5 @@
+using TestDotNetApp.Data;
+
 namespace TestDotNetApp
 {
     public class Program
@@ -8,31 +10,22 @@ namespace TestDotNetApp
 
             // Add services to the container.
             builder.Services.AddAuthorization();
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+            builder.Services.AddControllers();
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddDbContext<DBContext>();
 
 
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
 
+
+            app.UseRouting();
+
             app.UseAuthorization();
 
-            var summaries = new[]
-            {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-            app.MapGet("/weatherforecast", (HttpContext httpContext) =>
-            {
-                var forecast = Enumerable.Range(1, 5).Select(index =>
-                    new WeatherForecast
-                    {
-                        Date = DateTime.Now.AddDays(index),
-                        TemperatureC = Random.Shared.Next(-20, 55),
-                        Summary = summaries[Random.Shared.Next(summaries.Length)]
-                    })
-                    .ToArray();
-                return forecast;
-            });
+            app.MapControllers();
 
             app.Run();
         }
