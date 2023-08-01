@@ -117,5 +117,20 @@ namespace TestDotNetApp.Controllers
                 return BadRequest();
             }
         }
+
+        // GET: api/user
+        [HttpGet("excel")]
+        public async Task<ActionResult> GetUserListExcel()
+        {
+            try
+            {
+                var excelBytes = await _mediator.Send(new GetUserListExcelQuery());
+                return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "users.xlsx"); ;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
     }
 }

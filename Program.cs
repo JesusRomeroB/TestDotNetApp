@@ -1,4 +1,5 @@
 using TestDotNetApp.Data;
+using TestDotNetApp.Services;
 
 namespace TestDotNetApp
 {
@@ -14,6 +15,7 @@ namespace TestDotNetApp
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddDbContext<DBContext>();
+            builder.Services.AddScoped<ExcelGeneratorService>();
 
 
             var app = builder.Build();
