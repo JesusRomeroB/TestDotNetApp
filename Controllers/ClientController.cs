@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TestDotNetApp.Commands;
 using TestDotNetApp.Domain.DTO;
@@ -9,6 +10,7 @@ using TestDotNetApp.Queries;
 
 namespace TestDotNetApp.Controllers
 {
+    [Authorize]
     [Route("api/client")]
     [ApiController]
     public class ClientController : ControllerBase

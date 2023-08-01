@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TestDotNetApp.Commands;
 using TestDotNetApp.Domain.DTO;
@@ -9,6 +10,7 @@ using TestDotNetApp.Queries;
 
 namespace TestDotNetApp.Controllers
 {
+    [Authorize]
     [Route("api/user")]
     [ApiController]
     public class UserController : ControllerBase
@@ -125,7 +127,7 @@ namespace TestDotNetApp.Controllers
             try
             {
                 var excelBytes = await _mediator.Send(new GetUserListExcelQuery());
-                return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "users.xlsx"); ;
+                return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "users" + DateTime.UtcNow +".xlsx"); ;
             }
             catch (Exception ex)
             {
